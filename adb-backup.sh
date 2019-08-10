@@ -2,9 +2,10 @@
 
 function usage {
     echo "usage: ./adb-backup.sh [Options] {android folders to backup}"
-    echo " -h   shows this help message"
-    echo " -d directory   change the directory (/home/$USER/Desktop) where the backup will be saved"
-    echo " -r    remove the platform-tools folder (where adb is stored) at the end of the process"
+    echo " -h    shows this help message"
+    echo " -d directory    changes the directory (default /home/$USER/Desktop) where the backup will be saved"
+    echo " -r    removes the platform-tools folder (where adb is stored) at the end of the process"
+    echo " -z    zips the backup"
     echo "EXAMPLES:"
     echo "./adb-backup.sh /sdcard/Pictures"
     echo "./adb-backup.sh /sdcard/DCIM /sdcard/Download /sdcard/Pictures"
