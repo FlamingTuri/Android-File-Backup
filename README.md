@@ -23,6 +23,14 @@ sudo apt-get install pv
 
 There is no real installation, just run the `adb-backup.sh` script and follow its help message:
 
+```
+usage: ./adb-backup.sh [Options] {android folders to backup}
+ -h    shows this help message
+ -d directory    changes the directory (default /home/$USER/Desktop) where the backup will be saved
+ -r    removes the platform-tools folder (where adb is stored) at the end of the process
+ -z    zips the backup
+```
+
 ### Examples
 
 ```bash
@@ -30,6 +38,8 @@ There is no real installation, just run the `adb-backup.sh` script and follow it
 ./adb-backup.sh /sdcard/Pictures
 # backups "DCIM", "Download" and "Pictures" Android folders
 ./adb-backup.sh /sdcard/DCIM /sdcard/Download /sdcard/Pictures
+# backups "Pictures" Android folder, the backup is created in /home/$USER/Downloads
+./adb-backup.sh -d /home/$USER/Downloads /sdcard/Pictures
 ```
 
 The script's default working directory is `/home/$USER/Desktop`. This is the directory where the `platform-tools` and the backup will be saved. To change it use the `-d` flag:
