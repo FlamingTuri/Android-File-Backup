@@ -102,7 +102,7 @@ do
 done
 
 # recursively removes the transferred empty directories
-./remove-empty-directories.sh "$BCK_DIR"
+./utils/remove-empty-directories.sh "$BCK_DIR"
 
 # zips the backup directory
 if [ -n "${ZIP+set}" ]; then
