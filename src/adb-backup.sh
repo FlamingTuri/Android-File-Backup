@@ -13,19 +13,6 @@ function usage {
     exit 1
 }
 
-# combines two paths: P1, P2 => P1/P2
-function combine_path {
-    if [[ "$1" == */ ]] && [[ "$2" == /* ]]
-    then
-        combine_result="$1${2:1}"
-    elif [[ "$1" == */ ]] || [[ "$2" == /* ]]
-    then
-        combine_result="$1$2"
-    else
-        combine_result="$1/$2"
-    fi
-}
-
 # cd to the current script directoy
 cd "$(dirname "$0")"
 
@@ -66,8 +53,7 @@ then
     usage
 fi
 
-combine_path "$WORKING_DIR" "$ADB_DIR"
-ADB_TOOLS_PATH="$combine_result"
+ADB_TOOLS_PATH=$(./utils/combine_paths.sh "$WORKING_DIR" "$ADB_DIR")
 
 # downloads latest platform-tools if missing
 if [ ! -d "$ADB_TOOLS_PATH" ]
@@ -85,9 +71,8 @@ ADB="$ADB_TOOLS_PATH/adb"
 # creates the backup folder's name
 BCK_NAME=Backup-$($ADB shell getprop ro.product.device)-$(date +"%Y-%m-%d")
 
-# creates the backup directory absolute path
-combine_path "$WORKING_DIR" "$BCK_NAME"
-BCK_DIR="$combine_result" # $WORKING_DIR/$BCK_NAME
+# creates the backup directory absolute path $WORKING_DIR/$BCK_NAME
+BCK_DIR=$(./utils/combine_paths.sh "$WORKING_DIR" "$BCK_NAME")
 
 # creates the backup directory
 mkdir "$BCK_DIR"
