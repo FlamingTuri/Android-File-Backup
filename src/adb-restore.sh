@@ -72,6 +72,7 @@ if [[ "$BACKUP_TYPE" == "$BACKUP: directory" ]]; then
 elif [[ "$BACKUP_TYPE" =~ ^"$BACKUP: Zip archive data".*$ ]]; then
     # TODO
     echo "for some reason unpacking the zip and then pushing its content does not work"
+    echo "manually unpack the zipped backup and re-run this script using the unpacked folder"
     exit -1
 
     REMOVE_CREATING="s/^\s*creating:\s*//g"
