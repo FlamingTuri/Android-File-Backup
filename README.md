@@ -21,14 +21,26 @@ sudo apt-get install pv
 
 ## Installing
 
-There is no real installation, just run the `adb-backup.sh` script and follow its help message:
+There is no real installation, just run `adb-backup.sh` or `adb-restore.sh` and tune them according to your needs:
 
+[adb-backup.sh](src/adb-backup.sh)
 ```
 usage: ./adb-backup.sh [Options] {android folders to backup}
  -h    shows this help message
- -d directory    changes the directory (default /home/$USER/Desktop) where the backup will be saved
+ -d directory    changes the directory (default /home/$USER/Desktop) where platform-tools and the backup will be saved
  -r    removes the platform-tools folder (where adb is stored) at the end of the process
  -z    zips the backup
+```
+
+[adb-restore.sh](src/adb-restore.sh)
+```
+usage: ./adb-restore.sh [Options] {android backup folder/zip}
+ -h    shows this help message
+ -d directory    changes the directory (default /home/gventurini/Desktop) where platform tools will be saved
+ -r    removes the platform-tools folder (where adb is stored) at the end of the process
+EXAMPLES:
+./adb-restore.sh /home/gventurini/Desktop/Backup-DeviceName-yyyy-mm-dd
+./adb-restore.sh /home/gventurini/Desktop/Backup-DeviceName-yyyy-mm-dd.zip
 ```
 
 ### Examples
@@ -40,13 +52,9 @@ usage: ./adb-backup.sh [Options] {android folders to backup}
 ./adb-backup.sh /sdcard/DCIM /sdcard/Download /sdcard/Pictures
 # backups "Pictures" Android folder, the backup is created in /home/$USER/Downloads
 ./adb-backup.sh -d /home/$USER/Downloads /sdcard/Pictures
-```
 
-The script's default working directory is `/home/$USER/Desktop`. This is the directory where the `platform-tools` and the backup will be saved. To change it use the `-d` flag:
-
-```bash
-# sets the working folder to "/home/$USER/Downloads" and backups the "Pictures" Android folder
-./adb-backup.sh -d /home/$USER/Downloads /sdcard/Pictures
+# restores a previous backup, content on the device that is not present in the backup won't be lost
+./adb-restore.sh /home/$USER/Desktop/Backup-DeviceName-yyyy-mm-dd
 ```
 
 ## Built With
