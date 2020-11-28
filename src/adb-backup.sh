@@ -4,7 +4,7 @@ function usage {
     script_name="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
     echo "usage: ./$script_name [Options] {android folders to backup}"
     echo " -h    shows this help message"
-    echo " -d directory    changes the directory (default /home/$USER/Desktop) where the backup will be saved"
+    echo " -d directory    changes the directory (default /home/$USER/Desktop) where platform-tools and the backup will be saved"
     echo " -r    removes the platform-tools folder (where adb is stored) at the end of the process"
     echo " -z    zips the backup"
     echo "EXAMPLES:"
