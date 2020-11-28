@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# usage: ./remove_empty_directories "/absolute/path/to/target_folder"
+# usage: ./remove_empty_directories.sh "/absolute/path/to/target_folder"
 # description: recursively removes empty directories inside the specified path
+
+if [ $# -ne 1 ]
+then
+    echo "Wrong arguments number, expected 1 got $#"
+    exit -1
+fi
 
 # removes all the empty directories in the specified one (included)
 function find_and_remove {
@@ -17,12 +23,6 @@ function find_and_remove {
         rmdir "$1"
     fi
 }
-
-if [ $# -ne 1 ]
-then
-    echo "Wrong arguments number, expected 1 got $#"
-    exit -1
-fi
 
 # prevents errors with files with spaces in their name
 IFS=$'\n'

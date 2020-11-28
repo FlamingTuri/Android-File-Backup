@@ -1,36 +1,23 @@
 #!/bin/bash
 
 function usage {
-    echo "usage: ./adb-backup.sh [Options] {android folders to backup}"
+    script_name="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+    echo "usage: ./$script_name [Options] {android folders to backup}"
     echo " -h    shows this help message"
-    echo " -d directory    changes the directory (default /home/$USER/Desktop) where the backup will be saved"
+    echo " -d directory    changes the directory (default /home/$USER/Desktop) where platform-tools and the backup will be saved"
     echo " -r    removes the platform-tools folder (where adb is stored) at the end of the process"
     echo " -z    zips the backup"
     echo "EXAMPLES:"
-    echo "./adb-backup.sh /sdcard/Pictures"
-    echo "./adb-backup.sh /sdcard/DCIM /sdcard/Download /sdcard/Pictures"
-    echo "./adb-backup.sh -d /home/$USER/Downloads /sdcard/Pictures"
+    echo "./$script_name /sdcard/Pictures"
+    echo "./$script_name /sdcard/DCIM /sdcard/Download /sdcard/Pictures"
+    echo "./$script_name -d /home/$USER/Downloads /sdcard/Pictures"
     exit 1
-}
-
-# combines two paths: P1, P2 => P1/P2
-function combine_path {
-    if [[ "$1" == */ ]] && [[ "$2" == /* ]]
-    then
-        combine_result="$1${2:1}"
-    elif [[ "$1" == */ ]] || [[ "$2" == /* ]]
-    then
-        combine_result="$1$2"
-    else
-        combine_result="$1/$2"
-    fi
 }
 
 # cd to the current script directoy
 cd "$(dirname "$0")"
 
 WORKING_DIR="/home/$USER/Desktop"
-ADB_DIR=platform-tools
 
 while getopts "hrzd:" opt; do
   case $opt in
@@ -66,28 +53,17 @@ then
     usage
 fi
 
-combine_path "$WORKING_DIR" "$ADB_DIR"
-ADB_TOOLS_PATH="$combine_result"
+# downloads android platform tools
+./utils/download-platform-tools.sh "$WORKING_DIR"
 
-# downloads latest platform-tools if missing
-if [ ! -d "$ADB_TOOLS_PATH" ]
-then
-    TMPFILE=`mktemp`
-    ADBURL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
-
-    wget $ADBURL -O $TMPFILE
-    unzip -d $WORKING_DIR $TMPFILE
-    rm $TMPFILE
-fi
-
+ADB_TOOLS_PATH=$(./utils/combine_paths.sh "$WORKING_DIR" platform-tools)
 ADB="$ADB_TOOLS_PATH/adb"
 
-# creates the backup folder's name
+# name of the backup folder
 BCK_NAME=Backup-$($ADB shell getprop ro.product.device)-$(date +"%Y-%m-%d")
 
-# creates the backup directory absolute path
-combine_path "$WORKING_DIR" "$BCK_NAME"
-BCK_DIR="$combine_result" # $WORKING_DIR/$BCK_NAME
+# backup directory absolute path $WORKING_DIR/$BCK_NAME
+BCK_DIR=$(./utils/combine_paths.sh "$WORKING_DIR" "$BCK_NAME")
 
 # creates the backup directory
 mkdir "$BCK_DIR"
@@ -102,7 +78,7 @@ do
 done
 
 # recursively removes the transferred empty directories
-./remove-empty-directories.sh "$BCK_DIR"
+./utils/remove-empty-directories.sh "$BCK_DIR"
 
 # zips the backup directory
 if [ -n "${ZIP+set}" ]; then
