@@ -7,8 +7,8 @@ function usage {
     echo " -d directory    changes the directory (default /home/$USER/Desktop) where platform tools will be saved"
     echo " -r    removes the platform-tools folder (where adb is stored) at the end of the process"
     echo "EXAMPLES:"
-    echo "./$script_name /sdcard"
-    echo "./$script_name -d /home/$USER/Downloads /sdcard/Pictures"
+    echo "./$script_name /home/$USER/Desktop/Backup-DeviceName-yyyy-mm-dd"
+    echo "./$script_name /home/$USER/Desktop/Backup-DeviceName-yyyy-mm-dd.zip"
     exit 1
 }
 
