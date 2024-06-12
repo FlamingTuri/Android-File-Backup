@@ -17,7 +17,7 @@ cd "$(dirname "$0")"
 
 WORKING_DIR="/home/$USER/Desktop"
 
-while getopts "hrzd:" opt; do
+while getopts "hrd:" opt; do
   case $opt in
     d)
       # changes the default working directory (where the adb-tools
