@@ -18,11 +18,11 @@ ADB_TOOLS_PATH=$(./combine_paths.sh "$DOWNLOAD_DIR" platform-tools)
 # downloads latest platform-tools if missing
 if [ ! -d "$ADB_TOOLS_PATH" ]
 then
-    TMPFILE=`mktemp`
+    TMPFILE="$(mktemp)"
     ADBURL="https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
 
     echo "downloading latest platform tools"
-    wget $ADBURL -O $TMPFILE
-    unzip -d $DOWNLOAD_DIR $TMPFILE
-    rm $TMPFILE
+    wget $ADBURL -O "$TMPFILE"
+    unzip -d "$DOWNLOAD_DIR" "$TMPFILE"
+    rm "$TMPFILE"
 fi

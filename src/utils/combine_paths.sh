@@ -18,4 +18,4 @@ else
     combine_result="$1/$2"
 fi
 
-echo $combine_result
+echo "$combine_result"
