@@ -60,7 +60,7 @@ ADB_TOOLS_PATH=$(./utils/combine_paths.sh "$WORKING_DIR" platform-tools)
 ADB="$ADB_TOOLS_PATH/adb"
 
 # name of the backup folder
-BCK_NAME=Backup-$($ADB shell getprop ro.product.device)-$(date +"%Y-%m-%d")
+BCK_NAME=Backup-"$("$ADB" shell getprop ro.product.device)"-$(date +"%Y-%m-%d")
 
 # backup directory absolute path $WORKING_DIR/$BCK_NAME
 BCK_DIR=$(./utils/combine_paths.sh "$WORKING_DIR" "$BCK_NAME")
@@ -74,7 +74,7 @@ echo "copying files from your device"
 for android_directory in "${@:$OPTIND}"
 do
     # -a preserves file timestamp and mode
-    $ADB pull -a "$android_directory" "$BCK_DIR"
+    "$ADB" pull -a "$android_directory" "$BCK_DIR"
 done
 
 # recursively removes the transferred empty directories
