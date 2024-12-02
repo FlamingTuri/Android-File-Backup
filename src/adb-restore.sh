@@ -75,7 +75,7 @@ elif [[ "$BACKUP_TYPE" =~ ^"$BACKUP: Zip archive data".*$ ]]; then
     # TODO
     echo "for some reason unpacking the zip and then pushing its content does not work"
     echo "manually unpack the zipped backup and re-run this script using the unpacked folder"
-    exit -1
+    exit 1
 
     REMOVE_CREATING="s/^\s*creating:\s*//g"
     REMOVE_TRAILING_SLASH="s/(\/)*$//g"
@@ -86,7 +86,7 @@ elif [[ "$BACKUP_TYPE" =~ ^"$BACKUP: Zip archive data".*$ ]]; then
 else
     echo "Selected backup type not supported"
     echo "$BACKUP_TYPE"
-    exit -1
+    exit 1
 fi
 
 # removes platform-tools if the flag -r was set
