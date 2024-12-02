@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o errexit
+
 function usage {
     script_name="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
     echo "usage: ./$script_name [Options] {android folders to backup}"
